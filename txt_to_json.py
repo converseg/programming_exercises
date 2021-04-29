@@ -5,6 +5,7 @@ import json
 class Item():
     def __init__(self, text):
         self.text_array = text
+        self.entry = {}
         # TODO: this is hardcoded -- what if the input file is not formatted exactly the same?
         case = self.text_array[0]
         question = self.text_array[1]
@@ -18,12 +19,15 @@ class Item():
             self.options = []
             for option in options:
                 self.options.append(option[2:-1])
-            
         except:
             print('Unusual input file')
             self.case = case
             self.question = question
             self.options = options
+        
+        self.entry['case'] = self.case
+        self.entry['question'] = self.question
+        self.entry['options'] = self.options
 
 
 
@@ -48,12 +52,20 @@ def main():
                 start_index = i+1 # the next item will start with the line after ###
 
     for item in all_items:
-        print(item.case)
-        print('***')
-        print(item.question)
-        print('***')
-        print(item.options)
+        #print(item.case)
+        #print('***')
+        #print(item.question)
+        #print('***')
+        #print(item.options)
+        print(item.entry)
         print('\n ********* NEXT ITEM ******\n')
+
+    json_data = {}
+    json_data['items'] = []
+    for item in all_items:
+        json_data['items'].append(item.entry)
+    with open(output_fname, 'w') as f:
+        json.dump(json_data, f, indent=2) # this will overwrite an existing file
 
 
 if __name__ == '__main__':
