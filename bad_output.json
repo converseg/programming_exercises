@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "case": "This is a test case.",
+      "question": "How are you?",
+      "options": [
+        "Good",
+        "Bad"
+      ]
+    },
+    {
+      "case": null,
+      "question": null,
+      "options": null
+    },
+    {
+      "case": "Another test case.",
+      "question": "What is your name?",
+      "options": [
+        "Geoff"
+      ]
+    },
+    {
+      "case": "This one has no options.",
+      "question": "How will that work?",
+      "options": []
+    }
+  ]
+}

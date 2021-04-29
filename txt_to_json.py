@@ -11,7 +11,7 @@ class Item():
         # TODO: what if the input file is not formatted exactly the same?
         case = text[0]
         question = text[1]
-        options = text[2:] # what if no options are given and the index is out of bounds?
+        options = text[2:] # if no options are given, then this is just an empty array []
         try: 
             # make sure that format of the input file matches our expectation
             assert(case[:5] == 'Case:')

@@ -1,0 +1,17 @@
+Case: This is a test case.
+Question: How are you?
+- Good
+- Bad
+###
+This is a bad input item
+abcd
+1234
+goodbye
+###
+Case: Another test case.
+Question: What is your name?
+- Geoff
+###
+Case: This one has no options.
+Question: How will that work?
+###
