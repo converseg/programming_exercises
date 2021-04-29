@@ -1,5 +1,6 @@
 import argparse
 import json
+from os import path
 
 class Item():
     # input: an array of strings. These get parsed into a Case, Question, and Options
@@ -35,16 +36,7 @@ class Item():
         self.entry['question'] = self.question
         self.entry['options'] = self.options
 
-
-def main():
-    parser = argparse.ArgumentParser(description='Given a text file, put it into a JSON document where each item has a Case, Question, and Options')
-    parser.add_argument('--input', type = str, default='sample_input.txt', help='the name of the input text file')
-    parser.add_argument('--output', type = str, default='sample_output.json', help='the name of the output json file')
-
-    args = parser.parse_args()
-    input_fname = args.input
-    output_fname = args.output
-
+def write_to_json(input_fname, output_fname):
     start_index = 0
     all_items = [] # a list of Item objects
     with open(input_fname, 'r') as f:
@@ -61,6 +53,19 @@ def main():
         json_data['items'].append(item.entry)
     with open(output_fname, 'w') as f:
         json.dump(json_data, f, indent=2) 
+
+def main():
+    parser = argparse.ArgumentParser(description='Given a text file, put it into a JSON document where each item has a Case, Question, and Options')
+    parser.add_argument('--input', type = str, default='sample_input.txt', help='the name of the input text file')
+    parser.add_argument('--output', type = str, default='sample_output.json', help='the name of the output json file')
+
+    args = parser.parse_args()
+    input_fname = args.input
+    output_fname = args.output
+    if path.exists(input_fname):
+        write_to_json(input_fname, output_fname)
+    else:
+        print('Input file not found')
 
 if __name__ == '__main__':
     main()
