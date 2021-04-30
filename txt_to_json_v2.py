@@ -10,27 +10,22 @@ class Item():
         self.question = None
         self.options = None
         # TODO: what if the input file is not formatted exactly the same?
-        case = text[0]
-        question = text[1]
+        case = text[0].split(' ') #array where the first element is either "Case:" or "passage:"
+        case[-1] = case[-1][:-1]
+        question = text[1].split(' ') #Question or Stem
+        question[-1] = question[-1][:-1]
         options = text[2:] # if no options are given, then this is just an empty array []
-        try: 
-            # make sure that format of the input file matches our expectation
-            assert(case[:5] == 'Case:')
-            assert(question[:9] == 'Question:')
-            for option in options:
-                assert(option[0] == '-')
-            # try to format nicely:
-            #   remove the 'Case: ', 'Question: ', and '- ' headers
-            #   remove each line break at the end of each string
-            self.case = case[6:-1]
-            self.question = question[10:-1]
-            self.options = []
-            for option in options:
+        # try to format nicely:
+        #   remove the 'Case: ', 'Question: ', and '- ' headers
+        #   remove each line break at the end of each string
+        self.case = ' '.join(case[1:])
+        self.question = ' '.join(question[1:])
+        self.options = []
+        for option in options:
+            if option[0] == '-':
                 self.options.append(option[2:-1])
-        except:
-            print('Unusual input item')
-            # when given an input file with different format, we should flag and handle it differently
-            # for now, just write an empty "item" to the json file
+            else:
+                self.options.append(option[:-1])
         
         self.entry['case'] = self.case
         self.entry['question'] = self.question
@@ -44,7 +39,7 @@ def write_to_json(input_fname, output_fname):
         #long_string = f.read() # everything
         #array = long_string.split(delim="###\n") # each element is the full text of item
         for i, line in enumerate(lines):
-            if line == '###\n': # this string signals that the last item ended, and we can start making a new item
+            if line == '###\n' or line == '@@@\n': # this string signals that the last item ended, and we can start making a new item
                 item_text = lines[start_index: i]
                 all_items.append(Item(item_text))
                 start_index = i+1 # the next item will start with the line after ###
